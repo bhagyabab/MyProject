@@ -86,7 +86,21 @@ public class ControllerUser {
 
 	    return ResponseEntity.ok(response);
 	}
+	@PostMapping("/login")
+	public ResponseEntity<Map<String, Object>> login(@RequestBody Signup signup) {
+	    Map<String, Object> response = new HashMap<>();
+	    
+	    Signup loggedInUser = serviceUser.loginUser(signup.getEmail(), signup.getPassWord());
 
-	
+	    if (loggedInUser != null) {
+	        response.put("status", "Login successful");
+	        response.put("userId", loggedInUser.getId());
+	        response.put("name", loggedInUser.getName());
+	        return ResponseEntity.ok(response);
+	    } else {
+	        response.put("status", "Invalid email or password");
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+	    }
+	}
 	
 }

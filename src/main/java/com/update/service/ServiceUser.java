@@ -35,4 +35,17 @@ public class ServiceUser {
 		}
 		return null;
 	}
+	public Signup loginUser(String email, String password) {
+	    Optional<Signup> userOptional = repositoryUser.findByEmail(email);
+
+	    if (userOptional.isPresent()) {
+	        Signup user = userOptional.get();
+	        if (user.getPassWord().equals(password)) {
+	            return user; // Successful login
+	        }
+	    }
+	    return null; // Invalid email or password
+	}
+
+	
 }
